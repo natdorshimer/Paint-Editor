@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Paint Editor:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Paint_Editor_jar</output-path>
+    <root id="archive" name="Paint Editor.jar">
+      <element id="module-output" name="Paint Editor" />
+    </root>
+  </artifact>
+</component>
