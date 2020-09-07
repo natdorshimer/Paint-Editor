@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.LinkedList;
 
 /**
@@ -24,43 +23,40 @@ import java.util.LinkedList;
  * undo() : clears the panel of the previous shape drawn
  * paintComponent( Graphics ): paints all previous shapes and the current shape. Called by repaint()
  */
-public class PaintingPanel extends JPanel
-{
+public class PaintingPanel extends JPanel {
+    
     private LinkedList< PaintingShape > shapes;
     private PaintingShape               currObject;
     private Point                       start;
     private ControlsPanel               drawingData;
 
-    public PaintingPanel( ControlsPanel drawingData )
-    {
+    public PaintingPanel(ControlsPanel drawingData) {
         shapes = new LinkedList<>();
         this.drawingData = drawingData;
-        this.addMouseMotionListener( new MouseHandler() );
-        this.addMouseListener( new MouseHandler() );
-        this.setBackground( Color.LIGHT_GRAY );
+        this.setFocusable(true);
+        this.setBackground(Color.WHITE);
+        this.addMouseMotionListener(new MouseHandler());
+        this.addMouseListener(new MouseHandler());
+        this.addKeyListener(new KeyHandler());
     }
 
-    public void paintComponent( Graphics g )
-    {
-        super.paintComponent( g );
 
-        if ( shapes != null )
-            for ( PaintingShape shape : shapes )
-                shape.draw( g );
-        if ( currObject != null )
-            currObject.draw( g );
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if(shapes != null)
+            for(PaintingShape shape : shapes)
+                shape.draw(g);
+        if(currObject != null)
+            currObject.draw(g);
     }
 
-    public void clearPanel()
-    {
+    public void clearPanel() {
         shapes.clear();
         repaint();
     }
 
-    public void undo()
-    {
-        if( shapes != null )
-        {
+    public void undo() {
+        if( shapes != null ) {
             shapes.removeLast();
             repaint();
         }
@@ -71,30 +67,38 @@ public class PaintingPanel extends JPanel
      * We want to the current object to be the shape the user is currently creating by dragging the mouse
      * We want to store the object for later repainting once the user releases the mouse
      */
-    private class MouseHandler extends MouseAdapter
-    {
-        public void mouseDragged( MouseEvent e )
-        {
+    private class MouseHandler extends MouseAdapter {
+        public void mouseDragged(MouseEvent e) {
             Point end = e.getPoint();
             ControlsPanel data = PaintingPanel.this.drawingData;
-            currObject = PaintingShape.getShape( start, end, data );
+            currObject = PaintingShape.getShape(start, end, data);
             repaint();
         }
 
-        public void mousePressed( MouseEvent e )
-        {
+        //Request focus when pressed so key bindings work
+        public void mousePressed(MouseEvent e) {
             start = e.getPoint();
+            requestFocusInWindow();
         }
 
-        public void mouseReleased( MouseEvent e )
-        {
-            if( currObject != null )      //we only want to add an object if it actually exits
-                shapes.add( currObject ); //it may not exist if the user clicked but didn't drag
+        public void mouseReleased(MouseEvent e) {
+            if(currObject != null)      //we only want to add an object if it actually exits
+                shapes.add(currObject); //it may not exist if the user clicked but didn't drag
             currObject = null;            //current object now longer needed
         }
-    } //MouseHandler
+    }
 
-} //PaintingPanel
+    public class KeyHandler implements KeyListener {
+        //Ctrl+Z functionality for undo();
+        public void keyPressed(KeyEvent e) {
+            if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z)
+                undo();
+        }
+        public void keyReleased(KeyEvent e)  { }
+        public void keyTyped(KeyEvent e) { }
+    }
+
+}
 
 
 /**

@@ -23,15 +23,13 @@ import java.awt.*;
  *      -Eliminates necessity to work with the individual shapes in the grand scheme of things
  * draw( Graphics ) : abstract method that will paint the shape onto its content pane
  */
-public class PaintingShape
-{
+public class PaintingShape {
     private int startX, startY, endX, endY;
     private int lineWidth, dashLength;
     private boolean filled, dashed, gradient;
     private Color firstColor, secondColor;
 
-    public PaintingShape( Point start, Point end, ControlsPanel data )
-    {
+    public PaintingShape( Point start, Point end, ControlsPanel data ) {
         this.startX = (int)start.getX();
         this.startY = (int)start.getY();
         this.endX = (int)end.getX();
@@ -45,11 +43,9 @@ public class PaintingShape
         this.gradient = data.useGradient();
     }
 
-    public static PaintingShape getShape( Point start, Point end, ControlsPanel params )
-    {
+    public static PaintingShape getShape(Point start, Point end, ControlsPanel params) {
         PaintingShape returnObj = null;
-        switch( params.getShape() )
-        {
+        switch(params.getShape()) {
             case "Rectangle":
                 returnObj = new PaintRect( start, end, params );
                 break;
@@ -64,20 +60,19 @@ public class PaintingShape
         return returnObj;
     }
 
-    public void draw( Graphics g )
-    {
-        Graphics2D g2d = ( Graphics2D ) g;
+    public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
-        if( gradient )
-            g2d.setPaint( new GradientPaint( getX1(), getY1(), firstColor, getX2(), getY2(), secondColor ));
+        if(gradient)
+            g2d.setPaint(new GradientPaint(getX1(), getY1(), firstColor, getX2(), getY2(), secondColor));
         else
-            g2d.setColor( firstColor );
+            g2d.setColor(firstColor);
 
-        if( dashed )
-            g2d.setStroke( new BasicStroke( lineWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f,
-                    new float[]{dashLength, dashLength}, 0.0f ) );
+        if(dashed)
+            g2d.setStroke(new BasicStroke(lineWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f,
+                    new float[]{dashLength, dashLength}, 0.0f));
         else
-            g2d.setStroke( new BasicStroke( lineWidth ) );
+            g2d.setStroke(new BasicStroke(lineWidth));
     }
 
 

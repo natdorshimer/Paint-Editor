@@ -20,59 +20,56 @@ import java.awt.event.ActionListener;
  *
  * Its constructor needs ActionListeners to handle the implementation of clear and undo
  */
-public class ControlsPanel extends JPanel
-{
+public class ControlsPanel extends JPanel {
     private JButton clear, undo; //for clearing the panel and removing previous shape
-    private JComboBox< String > shapeList; //list for selecting which shape to draw
+    private JComboBox<String> shapeList; //list for selecting which shape to draw
     private JCheckBox filled, dashed, useGradient; //check boxes for line style
     private JColorButton firstGradColor, secondGradColor; //first color is solid color, second color is for gradients
     private JTextField lineWidthField, dashLengthField;    //for line style
     private JLabel shape, lineWidthLabel, dashLengthLabel; //Information labels
 
-    private static final String[] shapeNames =
-            { "Line", "Oval", "Rectangle" };
+    private static final String[] shapeNames = { "Line", "Oval", "Rectangle" };
 
     //Constructor takes a handle for clear and undo
     //Those buttons have an implementation dependent on how the painting panel works
-    public ControlsPanel( ActionListener clearHandle, ActionListener undoHandle )
-    {
+    public ControlsPanel( ActionListener clearHandle, ActionListener undoHandle ) {
         //Declarations of control parts
-        clear = new JButton( "Clear" );
-        undo = new JButton( "Undo" );
-        shape = new JLabel( "Shape:" );
-        shapeList = new JComboBox<>( shapeNames );
-        firstGradColor = new JColorButton( "1st Color..." );
-        secondGradColor = new JColorButton( "2nd Color..." );
-        lineWidthLabel = new JLabel( "Line Width:" );
-        lineWidthField = new JTextField( "3" );
-        lineWidthField.setColumns( 2 );
-        dashLengthLabel = new JLabel( "Dash Length:" );
-        dashLengthField = new JTextField( "6" );
-        dashLengthField.setColumns( 2 );
-        filled = new JCheckBox( "Filled" );
-        dashed = new JCheckBox( "Dashed" );
-        useGradient = new JCheckBox( "Use Gradient" );
+        clear = new JButton("Clear");
+        undo = new JButton("Undo");
+        shape = new JLabel("Shape:");
+        shapeList = new JComboBox<>(shapeNames);
+        firstGradColor = new JColorButton("1st Color...");
+        secondGradColor = new JColorButton("2nd Color...");
+        lineWidthLabel = new JLabel("Line Width:");
+        lineWidthField = new JTextField("3");
+        lineWidthField.setColumns(2);
+        dashLengthLabel = new JLabel("Dash Length:");
+        dashLengthField = new JTextField("6");
+        dashLengthField.setColumns(2);
+        filled = new JCheckBox("Filled");
+        dashed = new JCheckBox("Dashed");
+        useGradient = new JCheckBox("Use Gradient");
 
-        clear.addActionListener( clearHandle );
-        undo.addActionListener( undoHandle );
+        clear.addActionListener(clearHandle);
+        undo.addActionListener(undoHandle);
 
-        this.setLayout( new FlowLayout() );
-        this.add( clear );
-        this.add( undo );
-        this.add( shape );
-        this.add( shapeList );
-        this.add( filled );
-        this.add( useGradient );
-        this.add( firstGradColor );
-        this.add( secondGradColor );
-        this.add( lineWidthLabel );
-        this.add( lineWidthField );
-        this.add( dashLengthLabel );
-        this.add( dashLengthField );
-        this.add( dashed );
+        this.setLayout(new FlowLayout());
+        this.add(clear);
+        this.add(undo);
+        this.add(shape);
+        this.add(shapeList);
+        this.add(filled);
+        this.add(useGradient);
+        this.add(firstGradColor);
+        this.add(secondGradColor);
+        this.add(lineWidthLabel);
+        this.add(lineWidthField);
+        this.add(dashLengthLabel);
+        this.add(dashLengthField);
+        this.add(dashed);
+
     }
-
-    //Getters
+    
     boolean isFilled() { return filled.isSelected(); }
 
     boolean isDashed() { return dashed.isSelected(); }
@@ -97,16 +94,14 @@ public class ControlsPanel extends JPanel
      * If the user exits out without clicking on anything, then the color must not change
      * So only if the color returns from the dialog isn't null is it stored in chosenColor
      */
-    private class JColorButton extends JButton
-    {
+    private class JColorButton extends JButton {
+
         private Color chosenColor;
 
-        public JColorButton( String name )
-        {
+        public JColorButton( String name ) {
             super( name );
             chosenColor = Color.BLACK;
-            addActionListener( new ActionListener()
-            {
+            addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e )
                 {
                     Color color = JColorChooser.showDialog(null,"Choose Color", chosenColor );

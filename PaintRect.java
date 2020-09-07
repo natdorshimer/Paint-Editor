@@ -14,22 +14,32 @@ import java.awt.geom.Rectangle2D;
  */
 public class PaintRect extends PaintingShape
 {
-    public PaintRect( Point start, Point end, ControlsPanel data )
+    public PaintRect(Point start, Point end, ControlsPanel data)
     {
-        super( start, end, data );
+        super(start, end, data);
     }
 
-    public void draw( Graphics g )
+    public void draw(Graphics g)
     {
-        super.draw( g );
+        super.draw(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        if( isFilled() )
-            g2d.fill( new Rectangle2D.Double( Math.min(getX1(), getX2()),
-                    Math.min(getY1(),getY2()), getWidth(), getHeight() ) );
+        if(isFilled())
+            g2d.fill( new Rectangle2D.Double( 
+                Math.min(getX1(), getX2()),
+                Math.min(getY1(),getY2()), 
+                getWidth(), 
+                getHeight() 
+                ) 
+            );
         else
-            g2d.draw( new Rectangle2D.Double( Math.min( getX1(), getX2() ),
-                    Math.min( getY1(), getY2() ), getWidth(), getHeight() ) );
+            g2d.draw( new Rectangle2D.Double( 
+                Math.min(getX1(), getX2()),
+                Math.min(getY1(), getY2()), 
+                getWidth(), 
+                getHeight()
+                )
+            );
 
     }
 
